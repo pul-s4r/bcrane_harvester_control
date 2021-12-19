@@ -1,0 +1,9 @@
+geometry_msgs/PoseStamped[] pose_stamped
+string ACTUATOR_NAME = "crane_arm"
+
+---
+sensor_msgs/JointState[] joints
+
+uint8 RESULT_INVALID = 0
+uint8 RESULT_VALID = 1
+uint8[] result_type

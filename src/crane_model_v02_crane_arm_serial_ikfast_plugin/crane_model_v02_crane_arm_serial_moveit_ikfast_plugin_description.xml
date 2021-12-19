@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<library path="lib/libcrane_model_v02_crane_arm_serial_moveit_ikfast_plugin">
+  <class name="crane_model_v02_crane_arm_serial/IKFastKinematicsPlugin" type="crane_model_v02_crane_arm_serial::IKFastKinematicsPlugin" base_class_type="kinematics::KinematicsBase">
+    <description>IKFast61 plugin for closed-form kinematics of crane_model_v02 crane_arm_serial</description>
+  </class>
+</library>

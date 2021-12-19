@@ -1,0 +1,4 @@
+<launch>
+    <node name="crane_vision_processor" pkg="crane_vision" type="process.py" respawn="false"
+  	output="screen" args="" />
+</launch>

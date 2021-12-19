@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+
+  <!-- load the controllers -->
+  <node name="crane_manager_node" pkg="crane_manager" type="crane_manager" respawn="false"
+	output="screen" />
+
+<!-- ns="/crane_manager" args="joint_state_controller crane_control_adaptive"/> -->
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+    <remap from="/joint_states" to="/crane_control_adaptive/joint_states" />
+  </node> -->
+
+</launch>

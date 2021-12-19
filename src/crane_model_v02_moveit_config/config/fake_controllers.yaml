@@ -1,0 +1,24 @@
+controller_list:
+  - name: fake_crane_arm_closed_controller
+    type: $(arg execution_type)
+    joints:
+      - jointb
+      - jointA2e
+      - jointA1e
+  - name: fake_crane_arm_serial_controller
+    type: $(arg execution_type)
+    joints:
+      - jointb
+      - joint1
+      - joint2
+  - name: fake_end_effector_controller
+    type: $(arg execution_type)
+    joints:
+      - arm_3e
+  - name: fake_crane_tip_controller
+    type: $(arg execution_type)
+    joints:
+      []
+initial:  # Define initial robot poses.
+  - group: crane_arm_serial
+    pose: home

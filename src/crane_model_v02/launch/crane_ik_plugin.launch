@@ -1,0 +1,4 @@
+<launch>
+    <node name="crane_ik_equations" pkg="crane_model_v02" type="crane_ik_equations" respawn="false"
+  	output="screen" args="$(find crane_model_v02)/config/crane_model_v02_params.yaml" />
+</launch>

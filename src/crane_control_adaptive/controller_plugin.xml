@@ -1,0 +1,10 @@
+<library path="libcrane_control_adaptive">
+    <class name="position_controllers/JointTrajectoryAdaptive"
+           type="position_controllers::JointTrajectoryAdaptive"
+           base_class_type="controller_interface::ControllerBase">
+        <description>
+            Controller interface that implements an adaptive PID controller, currently uses exponential self-tuning method.
+            Can be swapped out with a fuzzy controller at a (presumed) performance penalty.
+        </description>
+    </class>
+</library>

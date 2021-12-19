@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="node_start_delay" default="15.0" />
+  <!-- Launch crane bringup and rviz environment -->
+  <include file="$(find crane_cs_sim)/launch/crane_bringup.launch"/>
+  <!-- <include file="$(find crane_model_v02)/launch/crane_upload.launch">
+  <arg name="limited" value="$(arg limited)"/> -->
+  <node name="listener" pkg="crane_cs_sim" type="listener" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />
+  <include file="$(find crane_cs_sim)/launch/crane_control.launch"/>
+
+  <!-- Launch goal manager (roscpp node) -->
+  <!-- <include file="$(find crane_manager)/launch/crane_manager.launch"/> -->
+</launch>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="crane_model_v02">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="crane_arm_serial">
+        <joint name="jointb"/>
+        <joint name="joint1"/>
+        <joint name="joint2"/>
+        <joint name="arm_3_joint_link"/>
+        <!-- <joint name="jointA1e"/>
+        <joint name="jointA2e"/> -->
+    </group>
+    <group name="actuator_slew_controller">
+        <joint name="jointb"/>
+    </group>
+    <group name="end_effector">
+        <link name="end_effector_temp"/>
+    </group>
+    <group name="crane_tip">
+        <link name="jt3_l"/>
+    </group>
+    <group name="actuator_base_controller">
+        <!-- <joint name="jointA1"/> -->
+        <joint name="jointA1e"/>
+    </group>
+    <group name="actuator_jib_controller">
+        <!-- <joint name="jointA2"/> -->
+        <joint name="jointA2e"/>
+    </group>
+    <group name="arm_extension_controller">
+        <joint name="arm_3e"/>
+    </group>
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="crane_arm_serial">
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="1.5708"/>
+        <joint name="jointb" value="0"/>
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="payload" parent_link="jt4_r" group="end_effector"/>
+    <end_effector name="crane_tip" parent_link="jt3_l" group="crane_arm_serial"/>
+    <!-- <end_effector name="actuator_1_tip" parent_link="act_1_rod" group="actuator_1_extension"/>
+    <end_effector name="actuator_2_tip" parent_link="act_2_rod" group="actuator_2_extension"/> -->
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
+    <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
+    <passive_joint name="jointA1"/>
+    <passive_joint name="jointA2"/>
+    <passive_joint name="joint_t3"/>
+    <passive_joint name="joint_t4"/>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="act_1_cyl" link2="act_1_rod" reason="Adjacent"/>
+    <disable_collisions link1="act_1_cyl" link2="act_2_cyl" reason="Never"/>
+    <disable_collisions link1="act_1_cyl" link2="arm_1" reason="Adjacent"/>
+    <disable_collisions link1="act_1_cyl" link2="arm_2" reason="Never"/>
+    <disable_collisions link1="act_1_rod" link2="base_link" reason="Never"/>
+    <disable_collisions link1="act_1_rod" link2="arm_2" reason="Never"/>
+    <disable_collisions link1="act_2_cyl" link2="act_2_rod" reason="Adjacent"/>
+    <disable_collisions link1="act_2_cyl" link2="arm_1" reason="Never"/>
+    <disable_collisions link1="act_2_cyl" link2="arm_2" reason="Adjacent"/>
+    <disable_collisions link1="act_2_cyl" link2="arm_3" reason="Never"/>
+    <disable_collisions link1="act_2_cyl" link2="base_link" reason="Never"/>
+    <disable_collisions link1="act_2_rod" link2="base_link" reason="Never"/>
+    <disable_collisions link1="act_2_rod" link2="arm_3" reason="Never"/>
+    <disable_collisions link1="arm_1" link2="arm_2" reason="Adjacent"/>
+    <disable_collisions link1="arm_1" link2="arm_3" reason="Never"/>
+    <disable_collisions link1="arm_1" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_2" link2="arm_3" reason="Adjacent"/>
+    <disable_collisions link1="arm_2" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_3" link2="base_link" reason="Never"/>
+</robot>

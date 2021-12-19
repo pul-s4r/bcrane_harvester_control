@@ -1,0 +1,3 @@
+crane_control_adaptive:
+    joint_trajectory_adaptive:
+        type: position_controllers/JointTrajectoryAdaptive

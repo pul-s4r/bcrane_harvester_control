@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="use_sim_time" default="true"/>
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+    <arg name="limited" default="false"  doc="If true, limits joint range [-PI, PI] on all joints."/>
+
+  <node name="start_coppeliasim" pkg="coppeliasim_run" type="start_coppeliasim" args=" -s $(find crane_cs_sim)/scene/crane_model_v02_cs.ttt"  output="screen"/>
+
+
+  <!-- send robot urdf to param server -->
+  <!-- Change this -->
+  <!-- <include file="$(find crane_model_v02)/launch/crane_upload.launch">
+    <arg name="limited" value="$(arg limited)"/>
+  </include> -->
+
+
+
+
+</launch>

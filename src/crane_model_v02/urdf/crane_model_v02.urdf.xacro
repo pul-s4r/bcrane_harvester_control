@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<robot name="crane_model_v02" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find crane_model_v02)/urdf/crane_model_v02_params.xacro"/>
+  <xacro:include filename="$(find crane_model_v02)/urdf/crane_model_v02_transmission.xacro"/>
+  <!-- Note: do $(find package_name) when compiled -->
+
+  <link name="base_link">
+    <visual>
+      <xacro:generate_cylinder_geom r="${r_base}" l="${l_base}"
+        or_x="0" or_y="0" or_z="${l_base/2}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cylinder_geom r="${r_base}" l="${l_base-0.05}"
+        or_x="0" or_y="0" or_z="${l_base/2}"/>
+    </collision>
+    <!-- <xacro:generate_cylinder_inertial mass="500" r="${r_base}" l="${l_base}" /> -->
+  </link>
+
+  <link name="arm_1">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${arm_w}" l_y="${arm_d}" l_z="${l_0}" or_x="0" or_y="0" or_z="${l_base+l_0/2}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cuboid_geom l_x="${arm_w*cbox_ratio}" l_y="${arm_d*cbox_ratio}" l_z="${(l_0-joint_w)}" or_x="0" or_y="0" or_z="${l_base+l_0/2}"/>
+    </collision>
+    <xacro:generate_cuboid_inertial mass="${m_0}" l_x="${arm_w}" l_y="${arm_d}" l_z="${l_0}" />
+  </link>
+
+  <link name="arm_2">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${arm_w}" l_y="${arm_d}" l_z="${l_1}" or_x="${0}" or_y="${l_1/2}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cuboid_geom l_x="${arm_w*cbox_ratio}" l_y="${arm_d*cbox_ratio}" l_z="${(l_1-joint_w)}" or_x="${0}" or_y="${l_1/2}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </collision>
+    <xacro:generate_cuboid_inertial mass="${m_1}" l_x="${arm_w}" l_y="${arm_d}" l_z="${l_1}" />
+  </link>
+
+  <link name="arm_3">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${arm_w}" l_y="${arm_d}" l_z="${l_2}" or_x="${0}" or_y="${l_2/2}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cuboid_geom l_x="${arm_w*cbox_ratio}" l_y="${arm_d*cbox_ratio}" l_z="${(l_2-joint_w)}" or_x="${0}" or_y="${l_2/2}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </collision>
+    <xacro:generate_cuboid_inertial mass="${m_2}" l_x="${arm_w}" l_y="${arm_d}" l_z="${l_1}" />
+  </link>
+
+  <link name="end_effector_temp">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" or_x="${0}" or_y="${0}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <xacro:generate_cuboid_inertial mass="${10}" l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" />
+  </link>
+
+  <link name="act_1_cyl">
+    <!-- Rot angle (x) = atan2(l_0-l_b1x, a_1-l_b1x)  -->
+    <visual>
+      <!-- <xacro:generate_cylinder_geom r="${act_r}" l="${l_b2}"
+        or_x="0" or_y="${atan(-0.1056)}" or_z="${l_b2/2}" or_theta="${-0.1056}"/> -->
+      <xacro:generate_cylinder_geom r="${act_r}" l="${l_b2}"
+        or_x="0" or_y="0" or_z="${l_b2/2}" or_theta="0"/>
+    </visual>
+    <collision>
+      <xacro:generate_cylinder_geom r="${act_r*cbox_ratio}" l="${l_b2*cbox_ratio}"
+        or_x="0" or_y="0" or_z="${l_b2/2}" or_theta="0"/>
+    </collision>
+    <xacro:generate_cylinder_inertial mass="${m_b1}" r="${act_r}" l="${l_b2}" />
+  </link>
+  <link name="act_1_rod">
+    <visual>
+      <xacro:generate_cylinder_geom r="${cbox_ratio*act_r}" l="${l_b2e}"
+        or_x="0" or_y="0" or_z="${l_b2e/2}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cylinder_geom r="${act_r*cbox_ratio}" l="${l_b2e*cbox_ratio}"
+        or_x="0" or_y="0" or_z="${l_b2e/2}"/>
+    </collision>
+    <xacro:generate_cylinder_inertial mass="${m_c1}" r="${act_r}" l="${l_b2e}" />
+  </link>
+
+  <link name="act_2_cyl">
+    <visual>
+      <xacro:generate_cylinder_geom r="${act_r}" l="${l_c2}"
+        or_x="0" or_y="0" or_z="${l_c2/2}" or_theta="0"/>
+    </visual>
+    <collision>
+      <xacro:generate_cylinder_geom r="${act_r*cbox_ratio_a}" l="${l_c2*cbox_ratio_a}"
+        or_x="0" or_y="0" or_z="${l_c2/2}" or_theta="0"/>
+    </collision>
+    <xacro:generate_cylinder_inertial mass="${m_b2}" r="${act_r}" l="${l_c2}" />
+  </link>
+  <link name="act_2_rod">
+    <visual>
+      <xacro:generate_cylinder_geom r="${cbox_ratio*act_r}" l="${l_c2e}"
+        or_x="0" or_y="0" or_z="${l_c2e/2}"/>
+    </visual>
+    <collision>
+      <xacro:generate_cylinder_geom r="${act_r*cbox_ratio_a}" l="${l_c2e*cbox_ratio_a}"
+        or_x="0" or_y="0" or_z="${l_c2e/2}"/>
+    </collision>
+    <xacro:generate_cylinder_inertial mass="${m_c2}" r="${act_r}" l="${l_c2e}" />
+  </link>
+
+  <link name="jt3_l">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" or_x="${0}" or_y="${0}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <xacro:generate_cuboid_inertial mass="${10}" l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" />
+  </link>
+  <link name="jt3_r">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" or_x="${0}" or_y="${0}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <xacro:generate_cuboid_inertial mass="${10}" l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" />
+  </link>
+  <link name="jt4_r">
+    <visual>
+        <xacro:generate_cuboid_geom l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" or_x="${0}" or_y="${0}" or_z="${0}" or_theta="${pi/2}" or_psi="${0}"/>
+    </visual>
+    <xacro:generate_cuboid_inertial mass="${10}" l_x="${0.1}" l_y="${0.1}" l_z="${0.1}" />
+  </link>
+
+  <joint name="jointb" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="arm_1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="${-pi}" upper="${pi}" effort="30" velocity="0.2"/>
+  </joint>
+  <joint name="joint1" type="revolute">
+    <origin xyz="0 0 ${l_base+l_0+0}" rpy="0 0 0"/>
+    <parent link="arm_1"/>
+    <child link="arm_2"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-pi/12}" upper="${2*pi/6}" effort="30" velocity="0.2"/>
+  </joint>
+  <joint name="joint2" type="revolute">
+    <origin xyz="${0} ${l_1+0} ${0}" rpy="0 ${pi} 0"/>
+    <parent link="arm_2"/>
+    <child link="arm_3"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${0}" upper="${pi/2+pi/12}" effort="30" velocity="0.2"/>
+  </joint>
+
+  <joint name="arm_3_joint_link" type="fixed">
+    <origin xyz="${0} ${l_2} ${0}" rpy="0 0 0"/>
+    <parent link="arm_3"/>
+    <child link="jt3_l"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <joint name="joint_t3" type="revolute">
+    <origin xyz="${0} ${0} ${0}" rpy="${pi/2} 0 ${pi/2}"/>
+    <parent link="jt3_l"/>
+    <child link="jt3_r"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="${-pi/2}" upper="${pi/2}" effort="30" velocity="0.2"/>
+  </joint>
+  <joint name="joint_t4" type="revolute">
+    <origin xyz="${0} ${0} ${0}" rpy="${pi} 0 ${pi/2}"/>
+    <parent link="jt3_r"/>
+    <child link="jt4_r"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-pi/2}" upper="${pi/2}" effort="30" velocity="0.2"/>
+  </joint>
+  <joint name="arm_3e" type="prismatic">
+    <origin xyz="${0} ${0.15} ${0}" rpy="0 0 0"/>
+    <parent link="jt4_r"/>
+    <child link="end_effector_temp"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="2.0" effort="30" velocity="0.25"/>
+  </joint>
+
+  <joint name="jointA1" type="continuous">
+    <!-- Rot angle (x) = atan2(l_0-l_b1x, a_1-l_b1x)  -->
+    <origin xyz="${0} ${l_b1x} ${l_base}" rpy="${-angle_a1} 0 0"/>
+    <parent link="arm_1"/>
+    <child link="act_1_cyl"/>
+    <axis xyz="1 0 0"/>
+  </joint>
+  <joint name="jointA1e" type="prismatic">
+    <origin xyz="${0} ${0} ${l_b2}" rpy="0 0 0"/>
+    <parent link="act_1_cyl"/>
+    <child link="act_1_rod"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.15" upper="0.75" effort="30" velocity="0.2"/>
+    <!-- <mimic joint="joint1" multiplier="${1.25}"/> -->
+  </joint>
+
+  <joint name="jointA2" type="continuous">
+    <origin xyz="${0} ${l_co} ${-(arm_d/2)}" rpy="${-pi/2-angle_a2} 0 0"/>
+    <parent link="arm_2"/>
+    <child link="act_2_cyl"/>
+    <axis xyz="1 0 0"/>
+  </joint>
+  <joint name="jointA2e" type="prismatic">
+    <origin xyz="${0} ${0} ${l_c2}" rpy="0 0 0"/>
+    <parent link="act_2_cyl"/>
+    <child link="act_2_rod"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.15" upper="0.75" effort="30" velocity="0.2"/>
+    <!-- <mimic joint="joint2" multiplier="${1.25}"/> -->
+  </joint>
+
+  <xacro:crane_arm_transmission prefix="" hw_interface="hardware_interface/PositionJointInterface"/>
+
+  <link name="world"/>
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

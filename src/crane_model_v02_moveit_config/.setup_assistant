@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: crane_model_v02
+    relative_path: urdf/crane_model_v02.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/crane_model_v02.srdf
+  CONFIG:
+    author_name: jjmoey
+    author_email: jjmoey@gmail.com
+    generated_timestamp: 1635064154

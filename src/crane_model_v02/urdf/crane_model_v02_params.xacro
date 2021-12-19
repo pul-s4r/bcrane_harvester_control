@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="crane_model_v02_params">
+  <!-- Load params from config -->
+  <xacro:property name="config_filename" value="$(find crane_model_v02)/config/crane_model_v02_params.yaml" />
+  <xacro:property name="props" value="${load_yaml(config_filename)}" />
+  <!-- Geometric params -->
+  <xacro:property name="r_base" value="${props['r_base']}" />
+  <xacro:property name="l_base" value="${props['l_base']}" />
+  <xacro:property name="l_0" value="${props['l_0']}" />
+  <xacro:property name="l_1" value="${props['l_1']}" />
+  <xacro:property name="l_2" value="${props['l_2']}" />
+  <xacro:property name="arm_w" value="${props['arm_w']}" />
+  <xacro:property name="arm_d" value="${props['arm_d']}" />
+  <xacro:property name="act_r" value="${props['act_r']}" />
+  <xacro:property name="joint_w" value="${props['joint_w']}" />
+  <xacro:property name="cbox_ratio" value="${props['cbox_ratio']}" />
+  <xacro:property name="cbox_ratio_a" value="${props['cbox_ratio_a']}" />
+
+  <xacro:property name="l_b1x" value="${r_base}" />
+  <xacro:property name="l_b1z" value="${l_base}" />
+  <xacro:property name="l_b4x" value="${props['l_b4x']}" />
+  <xacro:property name="l_b4y" value="${0.5*arm_d}" />
+  <xacro:property name="l_c1x" value="${props['l_c1x']}" />
+  <xacro:property name="l_c1y" value="${l_b4x}" />
+  <xacro:property name="l_c3x" value="${props['l_c3x']}" />
+  <xacro:property name="l_c3y" value="${props['l_c3y']}" />
+  <xacro:property name="l_b2" value="${props['l_b2']}" />
+  <xacro:property name="l_b2e" value="${props['l_b2e']}" />
+  <xacro:property name="l_co" value="${props['l_co']}" />
+  <xacro:property name="l_c2" value="${props['l_c2']}" />
+  <xacro:property name="l_c2e" value="${props['l_c2e']}" />
+
+  <xacro:property name="l_CoG_b1" value="${props['l_CoG_b1']}" />
+  <xacro:property name="l_CoG_b2" value="${props['l_CoG_b2']}" />
+  <xacro:property name="l_CoG_c1" value="${props['l_CoG_c1']}" />
+  <xacro:property name="l_CoG_c2" value="${props['l_CoG_c2']}" />
+  <xacro:property name="N" value="${props['N']}" />
+
+  <xacro:property name="a_1" value="${sqrt(l_b4x^2+l_b4y^2)}" />
+  <xacro:property name="b_1" value="${sqrt(l_b1x^2+(l_0-l_b1x)^2)}" />
+  <xacro:property name="a_2" value="${sqrt(l_c1x^2+l_c1y^2)}" />
+  <xacro:property name="b_2" value="${sqrt(l_c3x^2+l_c3y^2)}" />
+
+  <xacro:property name="angle_a1" value="${atan((l_b4x-l_b1x)/(l_0-l_b1z))}" />
+  <xacro:property name="angle_a2" value="${atan(l_c3x/l_co)}" />
+  <xacro:property name="a1e_lower" value="-0.15"/>
+  <xacro:property name="a1e_upper" value="0.75"/>
+  <xacro:property name="a2e_lower" value="-0.15"/>
+  <xacro:property name="a2e_upper" value="0.75"/>
+
+
+  <!-- Inertial params -->
+  <xacro:property name="m_0" value="800" />
+  <xacro:property name="m_1" value="750" />
+  <xacro:property name="m_2" value="700" />
+  <xacro:property name="m_p" value="250" />
+
+  <xacro:property name="m_b1" value="125" />
+  <xacro:property name="m_c1" value="100" />
+  <xacro:property name="m_b2" value="125" />
+  <xacro:property name="m_c2" value="100" />
+
+  <!-- <xacro:macro name="param_gamma_1" params="theta_1_d export_name:='gamma_1'">
+    <xacro:property name="${export_name}" value="${pi/2-theta_1_d -atan(l_b1x/(l_0-l_b1z))-atan(l_b4y/l_b4x)}"/>
+  </xacro:macro>
+  <xacro:macro name="param_gamma_2" params="theta_2_d export_name:='gamma_2'">
+    <xacro:property name="${export_name}" value="${pi-theta_2_d -atan(l_c1y/l_c1x)-atan(l_c3y/l_c3x)}"/>
+  </xacro:macro> -->
+
+  <!-- Units in kg m^2 -->
+  <xacro:property name="I_xx_0" value="70833.33" />
+  <xacro:property name="I_yy_0" value="833.33" />
+  <xacro:property name="I_zz_0" value="7083.33" />
+  <xacro:property name="I_xx_1" value="390.625" />
+  <xacro:property name="I_yy_1" value="4140.63" />
+  <xacro:property name="I_zz_1" value="4250.00" />
+  <xacro:property name="I_xx_2" value="208.333" />
+  <xacro:property name="I_yy_2" value="1541.67" />
+  <xacro:property name="I_zz_2" value="1666.67" />
+
+  <xacro:property name="J_a" value="3.125" />
+  <xacro:property name="I_xx_b1" value="40" />
+  <xacro:property name="I_yy_b1" value="900" />
+  <xacro:property name="I_zz_b1" value="900" />
+  <xacro:property name="I_xx_b2" value="10" />
+  <xacro:property name="I_yy_b2" value="650" />
+  <xacro:property name="I_zz_b2" value="650" />
+  <xacro:property name="I_xx_c1" value="40" />
+  <xacro:property name="I_yy_c1" value="900" />
+  <xacro:property name="I_zz_c1" value="900" />
+  <xacro:property name="I_xx_c2" value="10" />
+  <xacro:property name="I_yy_c2" value="650" />
+  <xacro:property name="I_zz_c2" value="650" />
+
+  <!-- Prepopulate with inertia values -->
+  <xacro:macro name="assign_inertial" params="mass:=1 i_xx:=1 i_yy:=1 i_zz:=1">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${i_xx}" ixy="0.0" ixz="0.0" iyy="${i_yy}" iyz="0.0" izz="${i_zz}"/>
+    </inertial>
+  </xacro:macro>
+  <!-- Generate cuboid (roll = theta, pitch = psi, yaw = phi)-->
+  <xacro:macro name="generate_cuboid_geom" params="l_x:=1 l_y:=1 l_z:=1 or_x:=0 or_y:=0 or_z:=0 or_theta:=0 or_psi:=0 or_phi:=0">
+    <geometry>
+        <box size="${l_x} ${l_y} ${l_z}"/>
+    </geometry>
+    <origin xyz="${or_x} ${or_y} ${or_z}" rpy="${or_theta} ${or_psi} ${or_phi}"/>
+  </xacro:macro>
+  <xacro:macro name="generate_cuboid_inertial" params="mass:=1 l_x:=1 l_y:=1 l_z:=1">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${1/12*mass*(l_y*l_y+l_z*l_z)}" ixy="0.0" ixz="0.0" iyy="${1/12*mass*(l_x*l_x+l_z*l_z)}" iyz="0.0" izz="${1/12*mass*(l_x*l_x+l_y*l_y)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Generate cylinder -->
+  <xacro:macro name="generate_cylinder_geom" params="r:=1 l:=1 or_x:=0 or_y:=0 or_z:=0 or_theta:=0 or_psi:=0 or_phi:=0">
+    <geometry>
+      <cylinder radius="${r}" length="${l}"/>
+    </geometry>
+    <origin xyz="${or_x} ${or_y} ${or_z}" rpy="${or_theta} ${or_psi} ${or_phi}"/>
+  </xacro:macro>
+  <xacro:macro name="generate_cylinder_inertial" params="mass:=1 r:=1 l:=1">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${1/12*mass*(3*r*r+l*l)}" ixy="0.0" ixz="0.0" iyy="${1/12*mass*(3*r*r+l*l)}" iyz="0.0" izz="${1/12*mass*(r*r)}"/>
+    </inertial>
+  </xacro:macro>
+</robot>

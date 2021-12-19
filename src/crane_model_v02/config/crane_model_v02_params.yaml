@@ -1,0 +1,43 @@
+r_base: &r_base 0.3
+l_base: &l_base 0.2
+l_0: 2.1
+l_1: 2.3
+l_2: 2.1
+arm_w: 0.3
+arm_d: 0.3
+act_r: 0.125
+joint_w: 0.35
+cbox_ratio: 0.8
+cbox_ratio_a: 0.65
+
+l_b1x: *r_base
+l_b1z: *l_base
+l_b4x: &l_b4x 0.5
+l_b4y: 0.15 # 0.5*arm_d
+l_c1x: 0.15
+l_c1y: *l_b4x
+l_c3x: 0.5
+l_c3y: 0.15
+l_b2: 1.0
+l_b2e: 0.9
+l_co: 1.1
+l_c2: 0.6
+l_c2e: 0.5
+
+l_CoG_b1: 1.0
+l_CoG_b2: 1.0
+l_CoG_c1: 1.0
+l_CoG_c2: 1.0
+N: 2
+
+# a_1: ${sqrt(l_b4x^2+l_b4y^2)}"
+# b_1: "${sqrt(l_b1x^2+(l_0-l_b1x)^2)}"
+# a_2: "${sqrt(l_c1x^2+l_c1y^2)}"
+# b_2: "${sqrt(l_c3x^2+l_c3y^2)}"
+#
+# angle_a1: "${atan((l_b4x-l_b1x)/(l_0-l_b1z))}"
+# angle_a2: "${atan(l_c3x/l_co)}"
+# a1e_lower: -0.15
+# a1e_upper: 0.75
+# a2e_lower: -0.15
+# a2e_upper: 0.75
